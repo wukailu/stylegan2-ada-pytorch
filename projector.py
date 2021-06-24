@@ -176,7 +176,7 @@ def run_projection(
     start_time = perf_counter()
     projected_w_steps = project(
         G,
-        target=torch.tensor(target_uint8.transpose([2, 0, 1]), device=device), # pylint: disable=not-callable
+        target=torch.tensor(target_uint8.transpose([2, 0, 1]), device=device),  # pylint: disable=not-callable
         num_steps=num_steps,
         device=device,
         verbose=True
