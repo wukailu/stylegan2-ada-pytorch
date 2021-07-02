@@ -49,6 +49,8 @@ def setup_training_loop_kwargs(
         gamma=None,  # Override R1 gamma: <float>
         kimg=None,  # Override training duration: <int>
         batch=None,  # Override batch size: <int>
+        z_dim=None,  # Override z_dim: <int>
+        w_dim=None,  # Override w_dim: <int>
 
         # Discriminator augmentation.
         aug=None,  # Augmentation mode: 'ada' (default), 'noaug', 'fixed'
@@ -241,6 +243,21 @@ def setup_training_loop_kwargs(
         desc += f'-batch{batch}'
         args.batch_size = batch
         args.batch_gpu = batch // gpus
+
+    if z_dim is not None:
+        assert isinstance(z_dim, int)
+        if not (z_dim >=1):
+            raise UserError('--z_dim must be at least 1')
+        desc += f'-z_dim{z_dim}'
+        args.G_kwargs.z_dim = z_dim
+
+    if w_dim is not None:
+        assert isinstance(w_dim, int)
+        if not (w_dim >= 1):
+            raise UserError('--w_dim must be at least 1')
+        desc += f'-w_dim{w_dim}'
+        args.G_kwargs.w_dim = w_dim
+
 
     # ---------------------------------------------------
     # Discriminator augmentation: aug, p, target, augpipe
@@ -448,6 +465,8 @@ class CommaSeparatedList(click.ParamType):
 @click.option('--gamma', help='Override R1 gamma', type=float)
 @click.option('--kimg', help='Override training duration', type=int, metavar='INT')
 @click.option('--batch', help='Override batch size', type=int, metavar='INT')
+@click.option('--z_dim', help='Override z_dim', type=int, metavar='INT')
+@click.option('--w_dim', help='Override w_dim', type=int, metavar='INT')
 # Discriminator augmentation.
 @click.option('--aug', help='Augmentation mode [default: ada]', type=click.Choice(['noaug', 'ada', 'fixed']))
 @click.option('--p', help='Augmentation probability for --aug=fixed', type=float)

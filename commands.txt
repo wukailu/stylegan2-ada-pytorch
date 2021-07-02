@@ -10,3 +10,7 @@ pip install click tensorboard ninja scipy imageio requests tqdm pyspng ninja ima
 docker run -it --shm-size=2g --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=0,5,6,7 --name stylegan -v /data:/data -v /home/kailu:/home/kailu sg2ada:latest bash
 
 docker run --shm-size=2g --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=0,5,6,7 --name stylegan -v /data:/data -v /home/kailu:/home/kailu sg2ada:latest /bin/bash -c 'cd /home/kailu/stylegan2-ada-pytorch && CUDA_VISIBLE_DEVICES=0,1,2,3 python train.py --outdir=./training-runs --data=/data/ImageNet100/train.zip --cond=1 --mirror=1 --augpipe=bgcfnc --gpus=4'
+
+docker run --shm-size=2g --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=0,5,6,7 --name stylegan -v /data:/data -v /home/kailu:/home/kailu sg2ada:latest /bin/bash -c 'cd /home/kailu/stylegan2-ada-pytorch && CUDA_VISIBLE_DEVICES=0,1,2,3 python train.py --outdir=./training-runs --data=/data/ImageNet100/train.zip --cond=1 --mirror=1 --augpipe=bgcfnc --gpus=4 --z_dim=2048 --w_dim=2048'
+
+docker run --shm-size=2g --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=0,5,6,7 --name stylegan -v /data:/data -v /home/kailu:/home/kailu sg2ada:latest /bin/bash -c 'cd /home/kailu/stylegan2-ada-pytorch && CUDA_VISIBLE_DEVICES=0,1,2,3 python train.py --outdir=./training-runs --data=/data/ImageNet100/train.zip --cond=1 --mirror=1 --augpipe=bgcfnc --gpus=4 --z_dim=1024 --w_dim=1024'
